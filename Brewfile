@@ -1,82 +1,57 @@
-tap "hashicorp/tap"
-tap "quarkusio/tap"
+# Unpinned on purpose: python, postgresql, node, etc. always resolve to the latest Homebrew release.
 
 cask_args appdir: "/Applications"
 
+# core cli
+brew "git"
+brew "gh"
+brew "stow"
 brew "jq"
 brew "yq"
-brew "stow"
-brew "coreutils"
-brew "findutils"
-brew "moreutils"
-brew "git"
-brew "git-crypt"
-brew "gnu-which"
-brew "gnu-sed"
-brew "gnu-tar"
 brew "ripgrep"
 brew "tree"
 brew "pstree"
 brew "htop"
+brew "tmux"
 brew "nvim"
 brew "ccat"
+brew "coreutils"
+brew "findutils"
+brew "moreutils"
+brew "gnu-sed"
+brew "gnu-tar"
+brew "gnu-which"
+brew "git-crypt"
 
 # lang
-brew "node"
-brew "rust"
-brew "lua"
-brew "go"
 brew "python"
-brew "gradle"
-brew "maven"
-cask "graalvm-jdk"
+brew "uv"
+brew "go"
+brew "node"
+
+# data
+brew "postgresql"
+brew "redis"
 
 # shell
 brew "powerlevel10k"
-
-# framework
-brew "quarkusio/tap/quarkus"
-
-# network
-brew "vegeta"
-brew "nmap"
-brew "curl"
-cask "wireshark"
-
-# devops
-brew "hashicorp/tap/terraform"
-
-# apps
-cask "jetbrains-toolbox"
-cask "sublime-text"
-cask "warp"
-cask "docker"
-cask "postman"
-cask "transmit"
-cask "spotify"
-cask "the-unarchiver"
-cask "transmission"
-cask "zoom"
-cask "notion"
-cask "miro"
-cask "whatsapp"
-cask "discord"
-cask "mac-mouse-fix"
-cask "clocker"
-cask "notion"
-cask "notion-calendar"
-cask "arduino-ide"
-cask "raspberry-pi-imager"
-cask "balenaetcher"
-
-# fonts
 cask "font-meslo-for-powerlevel10k"
 
-# fun stuff
-cask "steam"
-cask "openra"
-cask "battle-net"
-cask "minecraft"
+# apps
+cask "google-chrome"
+cask "warp"
+cask "docker-desktop"
+cask "visual-studio-code"
+cask "pycharm"
+cask "webstorm"
+cask "postman"
+cask "claude"
+cask "rectangle"
+cask "1password-cli"
+
+# work apps: fill in once IT tells us what is needed (Slack, Zoom, VPN client, ...)
+# cask "slack"
+# cask "zoom"
 
 # raycast -- last so it enables extensions
 cask "raycast"

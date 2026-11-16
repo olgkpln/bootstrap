@@ -5,20 +5,28 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+# where this repo lives (this file is a stow symlink into it)
+export BOOTSTRAP_DIR="${${(%):-%x}:A:h:h}"
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-export PATH="/usr/local/sbin:$PATH"
 export EDITOR=nvim
 
 # history
 HISTSIZE=50000
 SAVEHIST=10000
 
-# load the rest of the configs
-source $HOME/bootstrap/zsh/.exports
-source $HOME/bootstrap/zsh/.aliases
-export PATH="/opt/homebrew/sbin:$PATH"
-export PATH="/opt/homebrew/bin:$PATH"
+# paths and environment (sets up brew too)
+source "$HOME/.exports"
+
+# plugins (antigen is vendored and stowed as ~/antigen.zsh)
+source "$HOME/antigen.zsh"
+antigen use oh-my-zsh
+antigen bundle git
+antigen apply
+
+# prompt
+source "$(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme"
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# aliases last, so they win over the plugin ones
+source "$HOME/.aliases"

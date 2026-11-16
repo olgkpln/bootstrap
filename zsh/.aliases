@@ -97,7 +97,6 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias ~="cd ~" # `cd` is probably faster to type though
 alias -- -="cd -"
-alias dev -="cd ~/dev"
 
 # better ls
 alias l="ls -lF ${colorflag}"
@@ -263,11 +262,11 @@ alias cat="ccat"
 # commonly used dirs
 alias dev="cd ~/dev"
 alias work="cd ~/dev/work"
-alias desk="cd ~/desktop"
-alias docs="cd ~/documents"
-alias dl="cd ~/downloads"
+alias desk="cd ~/Desktop"
+alias docs="cd ~/Documents"
+alias dl="cd ~/Downloads"
 alias home="cd ~"
-alias dots="cd ~/bootstrap"
+alias dots="cd $BOOTSTRAP_DIR"
 
 # python
 alias pip="pip3"
@@ -307,36 +306,9 @@ gi() {
 	curl -L -s https://www.gitignore.io/api/$@
 }
 
-# create a remote repo
+# create a remote repo from the current directory (needs `gh auth login`)
 create-repo() {
-	# Get user input
-	echo "Enter name for new repo"
-	read REPONAME
-	echo "Do you want to make it private? (y/n)"
-	read -r -n PRIVATE_ANSWER
-
-	if [[ "$PRIVATE_ANSWER" =~ ^[Yy]$ ]]; then
-		PRIVATE_TF=true
-	else
-		PRIVATE_TF=false
-	fi
-
-	# Curl some json to the github API oh damn we so fancy
-	curl -u danieldop https://api.github.com/user/repos -d "{\"name\": \"$REPONAME\", \"private\": $PRIVATE_TF}" >/dev/null
-
-	# first commit
-	git init 1>/dev/null
-	gi macos,visualstudiocode >>.gitignore 1>/dev/null
-	print_success ".gitignore added"
-	git add . 1>/dev/null
-	git commit -m "initial commit" 1>/dev/null
-	print_success "initial commit"
-	git remote add origin https://github.com/danieldop/$REPONAME.git 1>/dev/null
-	git push -u origin master --force 1>/dev/null
-
-	sleep 0.5
-	print_success "\nRepo created"
-	print_in_cyan "You can view your new repo at https://github.com/danieldop/$REPONAME.git"
+	gh repo create --source=. --push "$@"
 }
 
 # make new dir and cd into it
@@ -391,21 +363,4 @@ emptytrash() {
 	rm -rfv ~/.Trash/* 1>/dev/null
 	sudo rm -v /private/var/vm/sleepimage 1>/dev/null
 
-}
-
-pyenv() {
-  local command
-  command="${1:-}"
-  if [ "$#" -gt 0 ]; then
-    shift
-  fi
-
-  case "$command" in
-  rehash|shell)
-    eval "$(pyenv "sh-$command" "$@")"
-    ;;
-  *)
-    command pyenv "$command" "$@"
-    ;;
-  esac
 }

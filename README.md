@@ -16,15 +16,18 @@ It ensures my machine is ready for backend and frontend development on kubernete
 
 ## Getting Started
 
-To run the script just hit: `curl -L https://git.io/JykhP | sh`
+```sh
+curl -fsSL https://raw.githubusercontent.com/olgkpln/bootstrap/main/run.sh | sh
+# or, from a clone:
+./bootstrap.sh [--dry-run] [--skip-macos] [--skip-accounts] [--rosetta]
+```
 
->Before you get started make sure you give full disk access permission to your terminal (for writing macos .dotfiles).
->`System Preferences -> Privacy -> Full Disk Access`.
+Give your terminal Full Disk Access first (`System Settings -> Privacy & Security -> Full Disk Access`).
+Intended for `arm64` Macs. Every step is idempotent and non-fatal; failures are listed at the end.
 
-This will execute [run.sh](run.sh) which will fetch this repo and then execute the [bootstrap.sh](bootstrap.sh) script.
-From there on all sections of this script will be executed.
-
->This script is intended for `arm64` based MacOS running computers.
+**No secrets live in this repo.** The script asks for your git name/email (stored in `~/.gitconfig.local`),
+generates an SSH key if you want one, and runs `gh auth login` / `op account add` interactively.
+Tokens stay in each tool's own keychain storage.
 
 ## Functionality Overview
 
@@ -34,7 +37,7 @@ function call from within [bootstrap.sh](bootstrap.sh). The three main buckets a
 ### MacOs
 - Updates the OS (optional)
 - Installs OS level dependencies like xcode-cli
-- Applies OS level configurations (look and feel)
+- Applies OS level configurations exported from my machine (`macos/.macos`)
 ### Brew
 - Installs Brew
 - Installs Casks and Bottles
